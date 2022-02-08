@@ -1,7 +1,6 @@
 overwrite: true
 schema:
   - ${NEXT_PUBLIC_API_URI}
-  - local-schema.graphql
 documents: "graphql/**/*.{ts,graphql}"
 generates:
   saleor/api.tsx:
@@ -12,7 +11,7 @@ generates:
             - "import * as Scalar from '../scalars'"
       - "typescript"
       - "typescript-operations"
-      - "typescript-react-apollo"
+      - "typescript-urql"
     config:
       scalars:
         JSONString: string

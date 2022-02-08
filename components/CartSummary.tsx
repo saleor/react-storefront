@@ -7,6 +7,7 @@ import {
   useCheckoutAddPromoCodeMutation,
 } from "@/saleor/api";
 
+import { LocalizedAmount } from "./LocalizedAmount";
 import { useRegions } from "./RegionsProvider";
 import { messages } from "./translations";
 
@@ -21,7 +22,7 @@ export interface CartSummaryProps {
 export const CartSummary = ({ checkout }: CartSummaryProps) => {
   const t = useIntl();
   const [editPromoCode, setEditPromoCode] = useState(false);
-  const [checkoutAddPromoCodeMutation] = useCheckoutAddPromoCodeMutation();
+  const [,checkoutAddPromoCodeMutation] = useCheckoutAddPromoCodeMutation();
   const { subtotalPrice, shippingPrice, totalPrice, discount, discountName } =
     checkout;
   const {
@@ -36,11 +37,9 @@ export const CartSummary = ({ checkout }: CartSummaryProps) => {
   const onAddPromoCode = handleSubmitForm(
     async (formData: PromoCodeFormData) => {
       const { data: promoMutationData } = await checkoutAddPromoCodeMutation({
-        variables: {
-          promoCode: formData.promoCode,
-          token: checkout.token,
-          locale: query.locale,
-        },
+        promoCode: formData.promoCode,
+        token: checkout.token,
+        locale: query.locale,
       });
       const errors = promoMutationData?.checkoutAddPromoCode?.errors;
       if (!!errors && errors.length > 0) {
@@ -90,7 +89,7 @@ export const CartSummary = ({ checkout }: CartSummaryProps) => {
                   {t.formatMessage(messages.discount)}
                 </dt>
                 <dd className="font-medium text-gray-900">
-                  {discount?.localizedAmount}
+                  <LocalizedAmount {...discount} />
                 </dd>
               </div>
             )}
@@ -99,7 +98,7 @@ export const CartSummary = ({ checkout }: CartSummaryProps) => {
                 {t.formatMessage(messages.subtotal)}
               </dt>
               <dd className="font-medium text-gray-900">
-                {subtotalPrice?.net.localizedAmount}
+                <LocalizedAmount {...subtotalPrice?.net} />
               </dd>
             </div>
             <div className="py-2 flex items-center justify-between">
@@ -107,13 +106,13 @@ export const CartSummary = ({ checkout }: CartSummaryProps) => {
                 {t.formatMessage(messages.shipping)}
               </dt>
               <dd className="font-medium text-gray-900">
-                {shippingPrice?.gross.localizedAmount}
+                <LocalizedAmount {...shippingPrice?.gross} />
               </dd>
             </div>
             <div className="py-2 flex items-center justify-between">
               <dt className="text-gray-600">{t.formatMessage(messages.tax)}</dt>
               <dd className="font-medium text-gray-900">
-                {subtotalPrice?.tax.localizedAmount}
+                <LocalizedAmount {...subtotalPrice?.tax} />
               </dd>
             </div>
             <div className="pt-4 flex items-center justify-between border-t border-gray-300">
@@ -121,7 +120,7 @@ export const CartSummary = ({ checkout }: CartSummaryProps) => {
                 {t.formatMessage(messages.total)}
               </dt>
               <dd className="text-lg font-bold text-gray-900">
-                {totalPrice?.gross.localizedAmount}
+                <LocalizedAmount {...totalPrice?.gross} />
               </dd>
             </div>
           </dl>
