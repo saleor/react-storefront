@@ -1,5 +1,2 @@
 .next
-saleor/api.tsx
 pnpm-lock.yaml
-graphql.schema.json
-lib/$path.ts

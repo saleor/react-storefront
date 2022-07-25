@@ -19,6 +19,8 @@ build
 
 # debug
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
@@ -29,18 +31,3 @@ npm-debug.log*
 
 # turbo
 .turbo
-
-# build
-dist
-
-#editor
-.vscode
-
-# TypeScript build files
-*.tsbuildinfo
-
-.rollup.cache
-
-#cypress
-cypress/screenshots
-cypress/videos
